@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 25.8.4.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115%; background: transparent }
+		pre { font-size: 10pt; font-family: "Liberation Mono", monospace; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+   r &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;The Roasted Engineer | Engineered Gourmet Gifting&lt;/title&gt;
+    
+    &lt;!-- Load Tailwind CSS --&gt;
+    &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+    
+    &lt;!-- Load React &amp; ReactDOM --&gt;
+    &lt;script src=&quot;https://unpkg.com/react@18/umd/react.production.min.js&quot; crossorigin&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://unpkg.com/react-dom@18/umd/react-dom.production.min.js&quot; crossorigin&gt;&lt;/script&gt;
+    
+    &lt;!-- Load Babel for compiling React in the browser --&gt;
+    &lt;script src=&quot;https://unpkg.com/@babel/standalone/babel.min.js&quot;&gt;&lt;/script&gt;
+    
+    &lt;!-- Load Lucide Icons --&gt;
+    &lt;script src=&quot;https://unpkg.com/lucide@latest&quot;&gt;&lt;/script&gt;
+
+    &lt;!-- Load Google Fonts --&gt;
+    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+
+    &lt;!-- MAIN APP CODE --&gt;
+    &lt;script type=&quot;text/babel&quot;&gt;
+        const { useState, useEffect } = React;
+
+        function App() {
+          // Theme Colors
+          const colors = {
+            navy: '#0B2545',
+            copper: '#B87333',
+            gold: '#C8A042',
+            cream: '#F5F1E8',
+            charcoal: '#1A1A1A'
+          };
+
+          const [isModalOpen, setIsModalOpen] = useState(false);
+          const [checkoutData, setCheckoutData] = useState(null);
+          const [cart, setCart] = useState({});
+          const [boxUpgrade, setBoxUpgrade] = useState('Medium Box');
+
+          // Customization State
+          const [customCompanyName, setCustomCompanyName] = useState('');
+          const [customBoxTheme, setCustomBoxTheme] = useState('Navy/Copper');
+          const [customLogoInfo, setCustomLogoInfo] = useState(null);
+          const [orderQuantity, setOrderQuantity] = useState(1);
+          const [logoError, setLogoError] = useState(false);
+
+          // Image State
+          const [generatedImages, setGeneratedImages] = useState({ h1: null, h2: null, h3: null });
+          const [imagesLoading, setImagesLoading] = useState({ h1: true, h2: true, h3: true });
+
+          // Render Icons on UI update
+          useEffect(() =&gt; {
+              if (window.lucide) {
+                  window.lucide.createIcons();
+              }
+          });
+
+          // Data
+          const signatureHampers = [
+            { 
+              id: 'h1', sku: 'TRE-PRC-01', name: 'The Precision Pack', price: 558, 
+              desc: 'Small in size, precise in impact.',
+              img: 'https://images.unsplash.com/photo-1607344645866-bea1b498f3cc?q=80&amp;w=800&amp;auto=format&amp;fit=crop',
+              features: ['2 flavoured dry fruits (80g each)', '1 premium sweet (~150g)', '6 handmade chocolates', '1 festive keepsake — Small brass diya'],
+              ideal: 'employee gifting'
+            },
+            { 
+              id: 'h2', sku: 'TRE-FSN-02', name: 'The Fusion Crate', price: 949, 
+              desc: 'Flavour, wellness &amp; celebration—perfectly fused.',
+              img: 'https://images.unsplash.com/photo-1542841791-efa146bf7743?q=80&amp;w=800&amp;auto=format&amp;fit=crop',
+              features: ['3 flavoured dry fruits (80g each)', '1 premium sweet (~250g)', '12 handmade chocolates', '1 healthy snack (80g)', '1 keepsake — Jar candle'],
+              ideal: 'teams &amp; valued clients',
+              badge: 'Best-Selling Configuration'
+            },
+            { 
+              id: 'h3', sku: 'TRE-LUX-03', name: 'The Luxe Curation', price: 1399, 
+              desc: 'A grand assembly of engineered indulgence.',
+              img: 'https://images.unsplash.com/photo-1512952554476-80db2df1ec7a?q=80&amp;w=800&amp;auto=format&amp;fit=crop',
+              features: ['4 flavoured dry fruits (80g each)', '1 premium sweet (~400g)', '15 handmade chocolates', '2 healthy snacks', '1 keepsake — Luxe signature lotus diya'],
+              ideal: 'leadership &amp; VIPs'
+            }
+          ];
+
+          const addOnModules = {
+            dryFruits: { title: 'A) Dry Fruits', subtitle: '80g Jar', items: [{ id: 'df1', name: 'Flavoured Almonds', price: 120 }, { id: 'df2', name: 'Flavoured Cashews', price: 130 }] },
+            sweets: { title: 'B) Premium Sweets', subtitle: '150-200g Box', items: [{ id: 'sw1', name: 'Stuffed Medjool Dates', price: 160 }, { id: 'sw2', name: 'Rose Petal Gulkand Bites', price: 150 }, { id: 'sw3', name: 'Seed &amp; Nut Ladoo', price: 150 }, { id: 'sw4', name: 'Dry Fruit Paan Cubes', price: 150 }, { id: 'sw5', name: 'Anjeer Walnut Barfi', price: 200 }] },
+            chocolates: { title: 'C) Handmade Chocolates', subtitle: 'In Potli (per pc)', items: [{ id: 'ch1', name: 'Almond Rocks', price: 15 }, { id: 'ch2', name: 'Pralines', price: 15 }, { id: 'ch3', name: 'Coffee', price: 15 }, { id: 'ch4', name: 'Fruit &amp; Nut', price: 15 }, { id: 'ch5', name: 'Butterscotch Crunch', price: 12 }] },
+            snacks: { title: 'D) Healthy Snacks', subtitle: '80g Jar', items: [{ id: 'sn1', name: 'Peri-Peri Makhana', price: 100 }, { id: 'sn2', name: 'Roasted Chana', price: 80 }, { id: 'sn3', name: 'Masala Oats / Ragi Puffs', price: 80 }, { id: 'sn4', name: 'Multigrain Sticks', price: 90 }, { id: 'sn5', name: 'Spiced Corn Flakes', price: 90 }] },
+            keepsakes: { title: 'E) Diwali Keepsakes', subtitle: 'Transparent Box', items: [{ id: 'ks1', name: 'Mini Brass Diya', price: 60 }, { id: 'ks2', name: 'Lotus Diya', price: 100 }, { id: 'ks3', name: 'Jar Candle', price: 120 }, { id: 'ks4', name: 'Brass Akhand Jyot', price: 220 }] }
+          };
+
+          const boxOptions = [
+            { name: 'Medium Box', price: 40 },
+            { name: 'Large Box', price: 75 },
+            { name: 'Magnetic Luxury Box', price: 150 }
+          ];
+
+          const getAvailableBoxOptions = (total) =&gt; {
+            if (total === 0 || total &lt;= 4) return boxOptions; 
+            if (total &lt;= 7) return boxOptions.filter(b =&gt; b.name !== 'Medium Box'); 
+            return boxOptions.filter(b =&gt; b.name === 'Magnetic Luxury Box'); 
+          };
+
+          // Logic
+          useEffect(() =&gt; {
+            const apiKey = &quot;&quot;; // API calls disabled for static standalone host
+            
+            const generateHamperImage = async (id, itemsDesc) =&gt; {
+                try {
+                    // Simulating AI loading time, then falling back to high-end Unsplash product images
+                    // This ensures the site works perfectly when hosted publicly on Netlify
+                    await new Promise(r =&gt; setTimeout(r, 1500));
+                    throw new Error(&quot;Using static asset fallback for public hosting.&quot;);
+                } catch (error) {
+                    const hamperData = signatureHampers.find(h =&gt; h.id === id);
+                    setGeneratedImages(prev =&gt; ({ ...prev, [id]: hamperData.img }));
+                } finally {
+                    setImagesLoading(prev =&gt; ({ ...prev, [id]: false }));
+                }
+            };
+
+            generateHamperImage('h1', '');
+            generateHamperImage('h2', '');
+            generateHamperImage('h3', '');
+          }, []);
+
+          useEffect(() =&gt; {
+            const itemsArray = Object.values(cart);
+            const totalItems = itemsArray.reduce((sum, item) =&gt; sum + item.qty, 0);
+            const availableBoxes = getAvailableBoxOptions(totalItems);
+
+            if (!availableBoxes.find(b =&gt; b.name === boxUpgrade)) {
+              if (availableBoxes.length &gt; 0) {
+                setBoxUpgrade(availableBoxes[0].name);
+              }
+            }
+          }, [cart, boxUpgrade]);
+
+          const handleUpdateCart = (item, delta) =&gt; {
+            setCart(prev =&gt; {
+              const newCart = { ...prev };
+              const currentQty = newCart[item.id]?.qty || 0;
+              const newQty = currentQty + delta;
+              
+              if (newQty &lt;= 0) {
+                delete newCart[item.id];
+              } else {
+                newCart[item.id] = { ...item, qty: newQty };
+              }
+              return newCart;
+            });
+          };
+
+          const getCustomTotals = () =&gt; {
+            const itemsArray = Object.values(cart);
+            const totalItems = itemsArray.reduce((sum, item) =&gt; sum + item.qty, 0);
+            const itemsCost = itemsArray.reduce((sum, item) =&gt; sum + (item.price * item.qty), 0);
+            
+            let packingCharge = 0;
+            if (totalItems === 0) packingCharge = 0;
+            else if (totalItems === 1) packingCharge = 20;
+            else if (totalItems === 2) packingCharge = 35;
+            else if (totalItems === 3) packingCharge = 50;
+            else if (totalItems &gt;= 4) packingCharge = 75;
+
+            const availableBoxes = getAvailableBoxOptions(totalItems);
+            const validBoxName = availableBoxes.find(b =&gt; b.name === boxUpgrade) ? boxUpgrade : (availableBoxes[0]?.name || 'Medium Box');
+            const selectedBox = boxOptions.find(b =&gt; b.name === validBoxName);
+            const boxCost = selectedBox ? selectedBox.price : 0;
+
+            return { totalItems, itemsCost, packingCharge, boxCost, grandTotal: itemsCost + packingCharge + boxCost, validBoxName };
+          };
+
+          const handleBuySignature = (hamper) =&gt; {
+            setCheckoutData({ type: 'signature', item: hamper });
+            setCustomCompanyName('');
+            setCustomBoxTheme('Navy/Copper');
+            setCustomLogoInfo(null);
+            setOrderQuantity(1);
+            setIsModalOpen(true);
+          };
+
+          const handleBuyCustom = () =&gt; {
+            setCheckoutData({ type: 'custom', details: getCustomTotals(), items: Object.values(cart) });
+            setCustomCompanyName('');
+            setCustomBoxTheme('Navy/Copper');
+            setCustomLogoInfo(null);
+            setOrderQuantity(1);
+            setIsModalOpen(true);
+          };
+
+          const sendWhatsAppOrder = () =&gt; {
+            const phone = &quot;918141040146&quot;;
+            let text = &quot;Hello The Roasted Engineer, I would like to place an order:\n\n&quot;;
+            text += `*Order Quantity:* ${orderQuantity} hampers\n\n`;
+
+            let unitPrice = 0;
+
+            if (checkoutData.type === 'signature') {
+              unitPrice = checkoutData.item.price;
+              text += `*Type:* Signature Hamper\n*SKU:* ${checkoutData.item.sku}\n*Item:* ${checkoutData.item.name}\n*Unit Price:* ₹${unitPrice}\n`;
+            } else {
+              unitPrice = checkoutData.details.grandTotal;
+              text += `*Type:* Custom Engineered Hamper\n*Items:*\n`;
+              checkoutData.items.forEach(i =&gt; {
+                text += `- ${i.qty}x ${i.name} (₹${i.price * i.qty})\n`;
+              });
+              text += `\n*Box Configuration:* ${checkoutData.details.validBoxName} (+₹${checkoutData.details.boxCost})`;
+              text += `\n*Assembly/Packing:* ₹${checkoutData.details.packingCharge}`;
+              text += `\n*Unit Total:* ₹${unitPrice}\n`;
+            }
+
+            text += `\n*--- GRAND TOTAL ---*\n*₹${unitPrice * orderQuantity}*\n`;
+
+            if (orderQuantity &gt;= 50) {
+              text += `\n*--- Branding &amp; Box Customization ---*\n`;
+              text += `*Company Name:* ${customCompanyName || 'Not provided'}\n`;
+              text += `*Box Color Theme:* ${customBoxTheme}\n`;
+              if (customLogoInfo) {
+                text += `*Logo Uploaded:* Yes (${customLogoInfo.name})\n_(Note: I will attach the logo image directly in this chat.)_\n`;
+              } else {
+                text += `*Logo Uploaded:* No\n`;
+              }
+            }
+
+            text += &quot;\n\nPlease let me know the next steps for payment and delivery details.&quot;;
+            const encodedText = encodeURIComponent(text);
+            window.open(`https://wa.me/${phone}?text=${encodedText}`, '_blank');
+            setIsModalOpen(false);
+          };
+
+          const Divider = () =&gt; &lt;div className=&quot;h-1 w-16 mt-3 mb-6 relative&quot;&gt;&lt;div className=&quot;absolute inset-0&quot; style={{ backgroundColor: colors.copper }}&gt;&lt;/div&gt;&lt;div className=&quot;absolute -left-2 -top-1 font-mono text-[8px]&quot; style={{color: colors.copper}}&gt;//&lt;/div&gt;&lt;/div&gt;;
+
+          const currentTotalItems = Object.values(cart).reduce((sum, item) =&gt; sum + item.qty, 0);
+          const availableBoxOptions = getAvailableBoxOptions(currentTotalItems);
+
+          return (
+            &lt;div className=&quot;min-h-screen pb-20 relative font-sans text-[#1A1A1A] bg-[#F5F1E8]&quot;&gt;
+              
+              {/* INTERNAL CSS */}
+              &lt;style dangerouslySetInnerHTML={{__html: `
+                .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
+                .blueprint-bg {
+                  background-color: #F5F1E8;
+                  background-image: linear-gradient(rgba(184, 115, 51, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(184, 115, 51, 0.08) 1px, transparent 1px);
+                  background-size: 30px 30px;
+                }
+                .blueprint-navy-bg {
+                  background-color: #0B2545;
+                  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+                  background-size: 30px 30px;
+                }
+                .drafting-marks { position: relative; }
+                .drafting-marks::before, .drafting-marks::after {
+                  content: '+'; position: absolute; color: #B87333; font-family: monospace; font-size: 14px; line-height: 1; opacity: 0.7;
+                }
+                .drafting-marks::before { top: -6px; left: -4px; }
+                .drafting-marks::after { bottom: -6px; right: -4px; }
+                .scanner-line {
+                  width: 100%; height: 1px; background: rgba(184,115,51,0.5); position: absolute; top: 0; left: 0;
+                  animation: scan 4s linear infinite; z-index: 20; opacity: 0.5; pointer-events: none;
+                }
+                @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+                @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+                .animate-slide-up { animation: slideUp 0.3s ease-out forwards; }
+              `}} /&gt;
+
+              {/* NAVBAR */}
+              &lt;nav className=&quot;sticky top-0 z-40 shadow-md py-3 px-6 md:px-12 flex justify-between items-center bg-[#0B2545] border-b border-[#B87333]/30&quot;&gt;
+                &lt;a href=&quot;#&quot; className=&quot;flex items-center&quot;&gt;
+                  {!logoError ? (
+                    &lt;img src=&quot;./Designer (3).jpg&quot; alt=&quot;Logo&quot; className=&quot;h-14 md:h-16 w-auto object-contain mix-blend-screen&quot; onError={() =&gt; setLogoError(true)} /&gt;
+                  ) : (
+                    &lt;div className=&quot;flex flex-col justify-center&quot;&gt;
+                      &lt;div className=&quot;text-xl md:text-2xl font-bold tracking-widest text-[#C8A042]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;THE ROASTED ENGINEER&lt;/div&gt;
+                      &lt;div className=&quot;text-[0.6rem] tracking-[0.2em] text-white/70 uppercase mt-1 font-mono-tech&quot;&gt;[ SYS.RDY ] Where Gifting Meets Engineering&lt;/div&gt;
+                    &lt;/div&gt;
+                  )}
+                &lt;/a&gt;
+                &lt;div className=&quot;hidden md:flex space-x-8 text-sm font-medium text-white/90 uppercase tracking-wider font-mono-tech text-xs&quot;&gt;
+                  &lt;a href=&quot;#about&quot; className=&quot;hover:text-[#C8A042] transition-colors flex items-center&quot;&gt;&lt;span className=&quot;text-[#B87333] mr-1&quot;&gt;01.&lt;/span&gt; About&lt;/a&gt;
+                  &lt;a href=&quot;#hampers&quot; className=&quot;hover:text-[#C8A042] transition-colors flex items-center&quot;&gt;&lt;span className=&quot;text-[#B87333] mr-1&quot;&gt;02.&lt;/span&gt; Assemblies&lt;/a&gt;
+                  &lt;a href=&quot;#addons&quot; className=&quot;hover:text-[#C8A042] transition-colors flex items-center&quot;&gt;&lt;span className=&quot;text-[#B87333] mr-1&quot;&gt;03.&lt;/span&gt; Configurator&lt;/a&gt;
+                &lt;/div&gt;
+              &lt;/nav&gt;
+
+              {/* HERO PAGE */}
+              &lt;section className=&quot;relative pt-20 pb-32 px-6 md:px-12 lg:px-24 overflow-hidden flex flex-col md:flex-row items-center justify-between blueprint-bg&quot;&gt;
+                &lt;div className=&quot;md:w-1/2 z-10 mb-12 md:mb-0 relative&quot;&gt;
+                  &lt;div className=&quot;absolute -left-8 top-0 text-[#B87333]/30 font-mono-tech text-xs rotate-[-90deg] origin-left&quot;&gt;Y-AXIS 0.00&lt;/div&gt;
+                  &lt;p className=&quot;font-mono-tech text-xs mb-4 uppercase flex items-center tracking-widest&quot; style={{ color: colors.copper }}&gt;
+                    &lt;i data-lucide=&quot;cpu&quot; className=&quot;w-4 h-4 mr-2&quot;&gt;&lt;/i&gt; [ SPEC: CORPORATE • FESTIVE • CUSTOM ]
+                  &lt;/p&gt;
+                  &lt;h1 className=&quot;text-5xl md:text-7xl leading-tight mb-6 text-[#0B2545]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;Engineered&lt;br /&gt;Gourmet Gifting&lt;/h1&gt;
+                  &lt;p className=&quot;text-lg md:text-xl max-w-lg mb-8 leading-relaxed text-gray-700 font-light border-l-2 pl-4 border-[#B87333]&quot;&gt;
+                    We translate your requirement into a well-spec'd solution — exclusive, memorable and built to perform when it's unboxed.
+                  &lt;/p&gt;
+                  &lt;div className=&quot;flex flex-wrap gap-4 font-mono-tech&quot;&gt;
+                    &lt;a href=&quot;#hampers&quot; className=&quot;inline-flex items-center px-8 py-4 text-xs tracking-widest uppercase font-bold text-white transition-all hover:bg-opacity-90 shadow-[4px_4px_0px_#B87333] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#B87333]&quot; style={{ backgroundColor: colors.navy }}&gt;
+                      EXECUTE_BUY &lt;i data-lucide=&quot;chevron-right&quot; className=&quot;ml-2 w-4 h-4&quot;&gt;&lt;/i&gt;
+                    &lt;/a&gt;
+                    &lt;a href=&quot;#addons&quot; className=&quot;inline-flex items-center px-8 py-4 text-xs tracking-widest uppercase font-bold text-[#0B2545] border-2 border-[#0B2545] transition-all hover:bg-[#0B2545] hover:text-white&quot; style={{ backgroundColor: 'transparent' }}&gt;
+                      INITIATE_CONFIG &lt;i data-lucide=&quot;settings&quot; className=&quot;ml-2 w-4 h-4&quot;&gt;&lt;/i&gt;
+                    &lt;/a&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div className=&quot;md:w-1/2 relative z-10 flex justify-center md:justify-end&quot;&gt;
+                  &lt;div className=&quot;relative w-full max-w-md drafting-marks&quot;&gt;
+                    &lt;div className=&quot;absolute -inset-4 border border-[#B87333]/30 z-0 border-dashed&quot;&gt;&lt;/div&gt;
+                    &lt;div className=&quot;absolute inset-0 translate-x-4 translate-y-4 shadow-xl bg-[#C8A042]&quot;&gt;&lt;/div&gt;
+                    &lt;img src=&quot;https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&amp;w=2040&amp;auto=format&amp;fit=crop&quot; alt=&quot;Premium Gift Hamper&quot; className=&quot;relative w-full h-auto object-cover shadow-2xl border border-[#0B2545]&quot; /&gt;
+                    &lt;div className=&quot;absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 font-mono-tech text-[10px] text-[#0B2545] shadow-sm flex items-center&quot;&gt;
+                      &lt;span className=&quot;w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse&quot;&gt;&lt;/span&gt; SYSTEM.ONLINE
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/section&gt;
+
+              {/* BRAND STORY */}
+              &lt;section id=&quot;about&quot; className=&quot;py-24 px-6 md:px-12 lg:px-24 bg-white relative&quot;&gt;
+                &lt;div className=&quot;absolute top-0 right-12 text-[#B87333]/20 font-mono-tech text-[200px] leading-none select-none font-bold&quot;&gt;01&lt;/div&gt;
+                &lt;div className=&quot;max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 relative z-10&quot;&gt;
+                  &lt;div className=&quot;lg:w-[65%]&quot;&gt;
+                    &lt;p className=&quot;font-mono-tech text-xs text-[#B87333] mb-2&quot;&gt;// SECTION_01 : BRAND_ARCHITECTURE&lt;/p&gt;
+                    &lt;h2 className=&quot;text-4xl text-[#0B2545]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;The Engineering Workflow&lt;/h2&gt;
+                    &lt;Divider /&gt;
+                    &lt;div className=&quot;space-y-6 text-gray-700 leading-relaxed text-lg&quot;&gt;
+                      &lt;p&gt;At The Roasted Engineer, gifting isn't random — it's &lt;strong className=&quot;text-[#0B2545] font-mono-tech text-sm bg-blue-50 px-1 rounded&quot;&gt;ENGINEERED&lt;/strong&gt;. We design every hamper like a well-built system: clear inputs, precise assembly, and a refined output — &lt;strong className=&quot;text-[#B87333]&quot;&gt;delight&lt;/strong&gt;.&lt;/p&gt;
+                      &lt;p&gt;Our process follows an engineering workflow: sourcing high-grade ingredients (quality inputs), calibrating flavours and proportions (tolerance &amp; balance), and finishing with robust, minimal packaging (reliable enclosure).&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;h3 className=&quot;text-2xl mt-12 mb-6 text-[#0B2545]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;What Makes Us Different&lt;/h3&gt;
+                    &lt;ul className=&quot;space-y-4 font-medium&quot;&gt;
+                      {[
+                        &quot;Quality &amp; Freshness with complete FSSAI labeling&quot;, 
+                        &quot;Minimal, client-first branding (Clean UI)&quot;, 
+                        &quot;Engineering-level precision (Balanced Bill-of-Materials)&quot;, 
+                        &quot;Fully customizable modular configurations&quot;, 
+                        &quot;Reliable SLA timelines (7–10 days dispatch)&quot;
+                      ].map((item, idx) =&gt; (
+                        &lt;li key={idx} className=&quot;flex items-start&quot;&gt;
+                          &lt;span className=&quot;font-mono-tech text-[#B87333] mr-3 mt-1 text-xs&quot;&gt;[{idx+1}]&lt;/span&gt;
+                          &lt;span&gt;{item}&lt;/span&gt;
+                        &lt;/li&gt;
+                      ))}
+                    &lt;/ul&gt;
+                  &lt;/div&gt;
+
+                  &lt;div className=&quot;lg:w-[35%]&quot;&gt;
+                     &lt;div className=&quot;h-full bg-[#F5F1E8] p-8 border border-[#B87333]/20 relative drafting-marks&quot;&gt;
+                        &lt;p className=&quot;font-mono-tech text-[10px] text-[#B87333] absolute top-2 right-3&quot;&gt;PROCESS_FLOW.MAP&lt;/p&gt;
+                        &lt;h3 className=&quot;text-2xl mb-8 text-[#0B2545]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;Execution Protocol&lt;/h3&gt;
+                        &lt;div className=&quot;space-y-8&quot;&gt;
+                          &lt;div className=&quot;flex items-center group&quot;&gt;
+                            &lt;div className=&quot;w-12 h-12 flex items-center justify-center text-white mr-4 shadow-md bg-[#0B2545] font-mono-tech text-xs transition-transform group-hover:scale-110 relative&quot;&gt;
+                               &lt;span className=&quot;absolute -top-1 -right-1 w-2 h-2 bg-[#B87333] rounded-full&quot;&gt;&lt;/span&gt; 01
+                            &lt;/div&gt;
+                            &lt;div&gt;&lt;h4 className=&quot;font-bold text-sm tracking-widest uppercase text-[#0B2545] font-mono-tech&quot;&gt;Phase_01: Base Model&lt;/h4&gt;&lt;p className=&quot;text-sm text-gray-600&quot;&gt;Select signature frame&lt;/p&gt;&lt;/div&gt;
+                          &lt;/div&gt;
+                          &lt;div className=&quot;w-0.5 h-6 bg-[#B87333]/30 ml-6 -my-4&quot;&gt;&lt;/div&gt;
+                          &lt;div className=&quot;flex items-center group&quot;&gt;
+                            &lt;div className=&quot;w-12 h-12 flex items-center justify-center text-white mr-4 shadow-md bg-[#B87333] font-mono-tech text-xs transition-transform group-hover:scale-110&quot;&gt;02&lt;/div&gt;
+                            &lt;div&gt;&lt;h4 className=&quot;font-bold text-sm tracking-widest uppercase text-[#0B2545] font-mono-tech&quot;&gt;Phase_02: Modules&lt;/h4&gt;&lt;p className=&quot;text-sm text-gray-600&quot;&gt;Configure payload&lt;/p&gt;&lt;/div&gt;
+                          &lt;/div&gt;
+                          &lt;div className=&quot;w-0.5 h-6 bg-[#B87333]/30 ml-6 -my-4&quot;&gt;&lt;/div&gt;
+                          &lt;div className=&quot;flex items-center group&quot;&gt;
+                            &lt;div className=&quot;w-12 h-12 flex items-center justify-center text-white mr-4 shadow-md bg-[#C8A042] font-mono-tech text-xs transition-transform group-hover:scale-110&quot;&gt;03&lt;/div&gt;
+                            &lt;div&gt;&lt;h4 className=&quot;font-bold text-sm tracking-widest uppercase text-[#0B2545] font-mono-tech&quot;&gt;Phase_03: Branding&lt;/h4&gt;&lt;p className=&quot;text-sm text-gray-600&quot;&gt;Apply UI / Sign-off&lt;/p&gt;&lt;/div&gt;
+                          &lt;/div&gt;
+                          &lt;div className=&quot;w-0.5 h-6 bg-[#B87333]/30 ml-6 -my-4&quot;&gt;&lt;/div&gt;
+                          &lt;div className=&quot;flex items-center group&quot;&gt;
+                            &lt;div className=&quot;w-12 h-12 flex items-center justify-center text-white mr-4 shadow-md bg-[#1A1A1A] font-mono-tech text-xs transition-transform group-hover:scale-110&quot;&gt;04&lt;/div&gt;
+                            &lt;div&gt;&lt;h4 className=&quot;font-bold text-sm tracking-widest uppercase text-[#0B2545] font-mono-tech&quot;&gt;Phase_04: Deployment&lt;/h4&gt;&lt;p className=&quot;text-sm text-gray-600&quot;&gt;SLA dispatch&lt;/p&gt;&lt;/div&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                     &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/section&gt;
+
+              {/* SIGNATURE HAMPERS */}
+              &lt;section id=&quot;hampers&quot; className=&quot;py-24 px-6 md:px-12 lg:px-24 bg-[#F5F1E8] border-y border-[#B87333]/20&quot;&gt;
+                &lt;div className=&quot;max-w-7xl mx-auto&quot;&gt;
+                  &lt;div className=&quot;text-center mb-16 relative&quot;&gt;
+                    &lt;p className=&quot;font-mono-tech text-xs text-[#B87333] mb-2 uppercase tracking-widest&quot;&gt;// Pre-Configured_Builds&lt;/p&gt;
+                    &lt;h2 className=&quot;text-4xl md:text-5xl mb-4 text-[#0B2545]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;Signature Assemblies&lt;/h2&gt;
+                    &lt;div className=&quot;h-1 w-24 mx-auto bg-[#B87333]&quot;&gt;&lt;/div&gt;
+                    &lt;p className=&quot;mt-6 text-lg text-gray-600 font-light&quot;&gt;Pre-configured blueprints for precise impact and premium output.&lt;/p&gt;
+                  &lt;/div&gt;
+
+                  &lt;div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12&quot;&gt;
+                    {signatureHampers.map((hamper) =&gt; (
+                      &lt;div key={hamper.id} className={`bg-white relative overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group ${hamper.badge ? 'border-2' : 'border border-[#B87333]/20 drafting-marks'}`} style={{ borderColor: hamper.badge ? colors.copper : '' }}&gt;
+                        {hamper.badge &amp;&amp; (
+                          &lt;div className=&quot;w-full text-center text-[10px] font-bold py-1.5 text-white uppercase tracking-widest font-mono-tech bg-[#B87333]&quot;&gt;
+                            [ {hamper.badge} ]
+                          &lt;/div&gt;
+                        )}
+                        &lt;div className=&quot;absolute top-2 left-2 z-20 font-mono-tech text-[9px] text-white/80 mix-blend-difference&quot;&gt;
+                          SKU: {hamper.sku}
+                        &lt;/div&gt;
+                        &lt;div className=&quot;h-64 overflow-hidden relative bg-gray-100 flex items-center justify-center border-b border-[#B87333]/20&quot;&gt;
+                           {imagesLoading[hamper.id] ? (
+                             &lt;div className=&quot;flex flex-col items-center justify-center text-[#B87333]&quot;&gt;
+                               &lt;i data-lucide=&quot;loader-2&quot; className=&quot;w-8 h-8 animate-spin mb-2&quot;&gt;&lt;/i&gt;
+                               &lt;span className=&quot;text-[10px] uppercase tracking-widest font-semibold font-mono-tech&quot;&gt;Rendering Asset...&lt;/span&gt;
+                             &lt;/div&gt;
+                           ) : (
+                             &lt;img src={generatedImages[hamper.id] || hamper.img} alt={hamper.name} className=&quot;w-full h-full object-cover transition-transform duration-700 group-hover:scale-105&quot; /&gt;
+                           )}
+                           &lt;div className=&quot;absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1.5 font-bold shadow-sm border border-[#B87333]/30 text-[#0B2545] font-mono-tech text-sm&quot;&gt;
+                             ₹{hamper.price}.00
+                           &lt;/div&gt;
+                           &lt;div className=&quot;absolute bottom-0 left-0 w-full text-center bg-black/70 backdrop-blur-sm text-white/70 text-[8px] py-1 tracking-widest uppercase font-mono-tech&quot;&gt;
+                             // Render for representation purpose only
+                           &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;p-8 flex-grow flex flex-col bg-white&quot;&gt;
+                          &lt;h3 className=&quot;text-2xl mb-1 text-[#0B2545]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;{hamper.name}&lt;/h3&gt;
+                          &lt;p className=&quot;italic text-xs mb-6 text-[#B87333] border-b border-gray-100 pb-4&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;&quot;{hamper.desc}&quot;&lt;/p&gt;
+                          &lt;div className=&quot;font-mono-tech text-[10px] uppercase text-gray-400 mb-2 tracking-widest&quot;&gt;Bill of Materials:&lt;/div&gt;
+                          &lt;ul className=&quot;space-y-2 mb-8 flex-grow text-sm text-gray-700&quot;&gt;
+                            {hamper.features.map((f, i) =&gt; (
+                              &lt;li key={i} className=&quot;flex items-start&quot;&gt;
+                                &lt;i data-lucide=&quot;git-branch&quot; className=&quot;w-3 h-3 mr-2 mt-1 text-[#B87333]&quot;&gt;&lt;/i&gt; 
+                                &lt;span className=&quot;leading-snug&quot;&gt;{f}&lt;/span&gt;
+                              &lt;/li&gt;
+                            ))}
+                          &lt;/ul&gt;
+                          &lt;div className=&quot;bg-gray-50 border border-gray-100 p-3 mb-6 text-center&quot;&gt;
+                            &lt;p className=&quot;text-[10px] font-bold tracking-widest uppercase text-[#0B2545] font-mono-tech&quot;&gt;Target: {hamper.ideal}&lt;/p&gt;
+                          &lt;/div&gt;
+                          &lt;button onClick={() =&gt; handleBuySignature(hamper)} className=&quot;w-full py-4 text-white font-bold tracking-widest uppercase text-[11px] hover:opacity-90 transition-opacity flex justify-center items-center font-mono-tech bg-[#0B2545]&quot;&gt;
+                            Deploy System &lt;i data-lucide=&quot;shopping-cart&quot; className=&quot;w-3 h-3 ml-2&quot;&gt;&lt;/i&gt;
+                          &lt;/button&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    ))}
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/section&gt;
+
+              {/* BUILD YOUR OWN */}
+              &lt;section id=&quot;addons&quot; className=&quot;py-24 px-6 md:px-12 lg:px-24 bg-white relative&quot;&gt;
+                &lt;div className=&quot;max-w-7xl mx-auto&quot;&gt;
+                  &lt;div className=&quot;mb-12 flex flex-col md:flex-row md:justify-between md:items-end border-b pb-6 border-[#B87333]/30&quot;&gt;
+                    &lt;div&gt;
+                      &lt;p className=&quot;font-mono-tech text-xs text-[#B87333] mb-2&quot;&gt;// CUSTOM_ASSEMBLY_CONSOLE&lt;/p&gt;
+                      &lt;h2 className=&quot;text-4xl text-[#0B2545]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;Build Your Own Blueprint&lt;/h2&gt;
+                    &lt;/div&gt;
+                    &lt;p className=&quot;text-sm text-gray-600 mt-4 md:mt-0 font-mono-tech max-w-sm&quot;&gt;
+                      [INFO] Select specific modules to configure your custom payload. The system will automatically calculate enclosure specs.
+                    &lt;/p&gt;
+                  &lt;/div&gt;
+
+                  &lt;div className=&quot;grid grid-cols-1 lg:grid-cols-3 gap-12&quot;&gt;
+                     &lt;div className=&quot;lg:col-span-2 space-y-8&quot;&gt;
+                        {Object.values(addOnModules).map((section, idx) =&gt; (
+                          &lt;div key={idx} className=&quot;border border-gray-200 drafting-marks bg-white p-1&quot;&gt;
+                            &lt;div className=&quot;bg-[#F5F1E8] border border-transparent p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center&quot;&gt;
+                              &lt;h3 className=&quot;text-sm font-bold tracking-widest uppercase text-[#0B2545] font-mono-tech&quot;&gt;{section.title}&lt;/h3&gt;
+                              &lt;span className=&quot;text-[10px] font-normal uppercase text-[#B87333] font-mono-tech tracking-widest px-2 py-0.5 border border-[#B87333]/30 rounded-sm mt-2 sm:mt-0&quot;&gt;VOL: {section.subtitle}&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;px-5 py-2&quot;&gt;
+                              &lt;ul className=&quot;space-y-1&quot;&gt;
+                                {section.items.map(item =&gt; {
+                                  const qty = cart[item.id]?.qty || 0;
+                                  return (
+                                    &lt;li key={item.id} className=&quot;flex justify-between items-center py-3 border-b border-dashed border-gray-100 last:border-0 hover:bg-gray-50 transition-colors px-2 -mx-2&quot;&gt;
+                                      &lt;div className=&quot;flex-grow flex items-center&quot;&gt;
+                                        &lt;span className={`w-1.5 h-1.5 rounded-full mr-3 ${qty &gt; 0 ? 'bg-green-500' : 'bg-gray-300'}`}&gt;&lt;/span&gt;
+                                        &lt;div&gt;
+                                          &lt;span className=&quot;font-medium text-gray-800 text-sm block&quot;&gt;{item.name}&lt;/span&gt;
+                                          &lt;span className=&quot;text-xs font-mono-tech text-[#B87333]&quot;&gt;₹{item.price}.00&lt;/span&gt;
+                                        &lt;/div&gt;
+                                      &lt;/div&gt;
+                                      &lt;div className=&quot;flex items-center space-x-2 bg-white border border-[#0B2545]/20 rounded-sm p-0.5 shadow-sm font-mono-tech&quot;&gt;
+                                        &lt;button onClick={() =&gt; handleUpdateCart(item, -1)} className=&quot;p-1.5 text-[#0B2545] hover:bg-[#F5F1E8] disabled:opacity-30&quot; disabled={qty === 0}&gt;
+                                          &lt;i data-lucide=&quot;minus&quot; className=&quot;w-3 h-3&quot;&gt;&lt;/i&gt;
+                                        &lt;/button&gt;
+                                        &lt;span className=&quot;w-6 text-center text-sm font-bold text-[#0B2545]&quot;&gt;{qty}&lt;/span&gt;
+                                        &lt;button onClick={() =&gt; handleUpdateCart(item, 1)} className=&quot;p-1.5 text-[#0B2545] hover:bg-[#F5F1E8]&quot;&gt;
+                                          &lt;i data-lucide=&quot;plus&quot; className=&quot;w-3 h-3&quot;&gt;&lt;/i&gt;
+                                        &lt;/button&gt;
+                                      &lt;/div&gt;
+                                    &lt;/li&gt;
+                                  );
+                                })}
+                              &lt;/ul&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                        ))}
+                     &lt;/div&gt;
+
+                     &lt;div className=&quot;lg:col-span-1&quot;&gt;
+                        &lt;div className=&quot;sticky top-24 bg-[#0B2545] p-1 shadow-2xl relative drafting-marks text-white&quot;&gt;
+                           &lt;div className=&quot;scanner-line&quot;&gt;&lt;/div&gt;
+                           &lt;div className=&quot;border border-[#B87333]/30 p-5 bg-[#0B2545] h-full&quot;&gt;
+                             &lt;div className=&quot;flex items-center justify-between mb-6 border-b border-white/10 pb-4&quot;&gt;
+                               &lt;h4 className=&quot;font-mono-tech text-sm tracking-widest text-[#C8A042] uppercase flex items-center&quot;&gt;
+                                 &lt;i data-lucide=&quot;cpu&quot; className=&quot;w-4 h-4 mr-2&quot;&gt;&lt;/i&gt; SYS.CONFIG
+                               &lt;/h4&gt;
+                               &lt;span className=&quot;text-[10px] font-mono-tech px-2 py-0.5 bg-green-500/20 text-green-400 border border-green-500/50&quot;&gt;LIVE&lt;/span&gt;
+                             &lt;/div&gt;
+                             
+                             &lt;div className=&quot;mb-8&quot;&gt;
+                               &lt;label className=&quot;block text-[10px] font-mono-tech uppercase tracking-widest mb-3 text-white/60&quot;&gt;Required Enclosure Spec&lt;/label&gt;
+                               &lt;div className=&quot;space-y-2&quot;&gt;
+                                 {availableBoxOptions.map(box =&gt; (
+                                   &lt;label key={box.name} className={`flex items-center p-3 border cursor-pointer transition-colors font-mono-tech text-xs ${boxUpgrade === box.name ? 'border-[#B87333] bg-[#B87333]/10 text-white' : 'border-white/10 text-white/50 hover:border-white/30'}`}&gt;
+                                     &lt;input type=&quot;radio&quot; name=&quot;boxType&quot; value={box.name} checked={boxUpgrade === box.name} onChange={(e) =&gt; setBoxUpgrade(e.target.value)} className=&quot;mr-3 accent-[#B87333]&quot; /&gt;
+                                     &lt;div className=&quot;flex-grow flex justify-between&quot;&gt;
+                                       &lt;span&gt;{box.name}&lt;/span&gt;
+                                       &lt;span className={boxUpgrade === box.name ? 'text-[#C8A042]' : ''}&gt;{box.price === 0 ? '[INC]' : `+₹${box.price}`}&lt;/span&gt;
+                                     &lt;/div&gt;
+                                   &lt;/label&gt;
+                                 ))}
+                                 {currentTotalItems &gt;= 5 &amp;&amp; currentTotalItems &lt;= 7 &amp;&amp; (
+                                   &lt;p className=&quot;text-[10px] text-[#C8A042] mt-2 font-mono-tech bg-[#C8A042]/10 p-2 border border-[#C8A042]/30&quot;&gt;! WRN: Vol limit exceeded for Medium Box.&lt;/p&gt;
+                                 )}
+                                 {currentTotalItems &gt; 7 &amp;&amp; (
+                                   &lt;p className=&quot;text-[10px] text-[#C8A042] mt-2 font-mono-tech bg-[#C8A042]/10 p-2 border border-[#C8A042]/30&quot;&gt;! WRN: Max vol requires Magnetic Luxury Enclosure.&lt;/p&gt;
+                                 )}
+                               &lt;/div&gt;
+                             &lt;/div&gt;
+
+                             &lt;div className=&quot;bg-black/30 p-4 border border-white/10 text-sm relative&quot;&gt;
+                                &lt;p className=&quot;font-mono-tech text-[10px] text-white/50 absolute top-2 right-2&quot;&gt;CALC_MATRIX&lt;/p&gt;
+                                &lt;h4 className=&quot;font-bold mb-4 uppercase tracking-wider text-[11px] font-mono-tech text-white/80 border-b border-white/10 pb-2&quot;&gt;Assembly Protocol&lt;/h4&gt;
+                                &lt;ul className=&quot;space-y-1 font-mono-tech text-[10px] text-white/60 mb-6&quot;&gt;
+                                  &lt;li className={`flex justify-between p-1.5 transition-all ${currentTotalItems === 1 ? 'bg-[#B87333]/20 text-[#C8A042] border border-[#B87333]/50' : ''}`}&gt;&lt;span&gt;01_MODULE&lt;/span&gt; &lt;span&gt;+₹20.00&lt;/span&gt;&lt;/li&gt;
+                                  &lt;li className={`flex justify-between p-1.5 transition-all ${currentTotalItems === 2 ? 'bg-[#B87333]/20 text-[#C8A042] border border-[#B87333]/50' : ''}`}&gt;&lt;span&gt;02_MODULES&lt;/span&gt; &lt;span&gt;+₹35.00&lt;/span&gt;&lt;/li&gt;
+                                  &lt;li className={`flex justify-between p-1.5 transition-all ${currentTotalItems === 3 ? 'bg-[#B87333]/20 text-[#C8A042] border border-[#B87333]/50' : ''}`}&gt;&lt;span&gt;03_MODULES&lt;/span&gt; &lt;span&gt;+₹50.00&lt;/span&gt;&lt;/li&gt;
+                                  &lt;li className={`flex justify-between p-1.5 transition-all ${currentTotalItems &gt;= 4 ? 'bg-[#B87333]/20 text-[#C8A042] border border-[#B87333]/50' : ''}`}&gt;&lt;span&gt;04+_MODULES&lt;/span&gt; &lt;span&gt;+₹75.00&lt;/span&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                                &lt;div className=&quot;p-3 border border-[#B87333]/50 bg-[#B87333]/10&quot;&gt;
+                                  &lt;div className=&quot;flex justify-between items-end mb-1&quot;&gt;
+                                    &lt;span className=&quot;font-mono-tech text-[10px] uppercase tracking-wider text-white/80&quot;&gt;Active Assembly Cost:&lt;/span&gt;
+                                    &lt;span className=&quot;font-mono-tech text-lg text-[#C8A042]&quot;&gt;₹{getCustomTotals().packingCharge}.00&lt;/span&gt;
+                                  &lt;/div&gt;
+                                  &lt;p className=&quot;text-[9px] text-white/40 uppercase tracking-widest font-mono-tech&quot;&gt;Based on {currentTotalItems} input items&lt;/p&gt;
+                                &lt;/div&gt;
+                             &lt;/div&gt;
+                           &lt;/div&gt;
+                        &lt;/div&gt;
+                     &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/section&gt;
+
+              {/* CONTACT &amp; BRANDING */}
+              &lt;section className=&quot;py-24 px-6 md:px-12 lg:px-24 blueprint-navy-bg border-t border-[#B87333]/30&quot; style={{ color: 'white' }}&gt;
+                &lt;div className=&quot;max-w-7xl mx-auto flex flex-col md:flex-row gap-16 relative&quot;&gt;
+                  &lt;div className=&quot;hidden lg:block absolute right-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#C8A042] to-transparent&quot;&gt;&lt;/div&gt;
+                  &lt;div className=&quot;md:w-1/2&quot;&gt;
+                    &lt;p className=&quot;font-mono-tech text-xs text-[#B87333] mb-2&quot;&gt;// SPECIFICATIONS&lt;/p&gt;
+                    &lt;h2 className=&quot;text-3xl mb-4 text-[#C8A042]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;Branding &amp; Quality&lt;/h2&gt;
+                    &lt;div className=&quot;h-px w-16 mb-8 bg-[#B87333]&quot;&gt;&lt;/div&gt;
+                    &lt;div className=&quot;mb-10 font-mono-tech text-xs text-white/80 space-y-3&quot;&gt;
+                      &lt;h3 className=&quot;text-sm font-semibold mb-4 text-white uppercase tracking-widest border-b border-white/10 pb-2 w-max&quot;&gt;UI / Branding Config&lt;/h3&gt;
+                      &lt;p className=&quot;flex items-start&quot;&gt;&lt;i data-lucide=&quot;check&quot; className=&quot;w-3 h-3 mr-2 mt-0.5 text-[#B87333]&quot;&gt;&lt;/i&gt; Logo on enclosure (front-face badge) — Min. 50 QTY&lt;/p&gt;
+                      &lt;p className=&quot;flex items-start&quot;&gt;&lt;i data-lucide=&quot;check&quot; className=&quot;w-3 h-3 mr-2 mt-0.5 text-[#B87333]&quot;&gt;&lt;/i&gt; Custom sleeves &amp; message documentation&lt;/p&gt;
+                      &lt;p className=&quot;flex items-start&quot;&gt;&lt;i data-lucide=&quot;check&quot; className=&quot;w-3 h-3 mr-2 mt-0.5 text-[#B87333]&quot;&gt;&lt;/i&gt; Approved palettes: Navy/Copper, Cream/Gold&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div className=&quot;font-mono-tech text-xs text-white/80 space-y-3&quot;&gt;
+                      &lt;h3 className=&quot;text-sm font-semibold mb-4 text-white uppercase tracking-widest border-b border-white/10 pb-2 w-max&quot;&gt;QA Checkpoints&lt;/h3&gt;
+                      &lt;p className=&quot;text-[10px] text-white/50 mb-2 uppercase&quot;&gt;Each unit includes comprehensive specs:&lt;/p&gt;
+                      &lt;div className=&quot;grid grid-cols-2 gap-2 bg-black/30 p-4 border border-white/10&quot;&gt;
+                        &lt;span&gt;[X] Ingredients&lt;/span&gt;&lt;span&gt;[X] Net Weight&lt;/span&gt;&lt;span&gt;[X] Pack Date&lt;/span&gt;&lt;span&gt;[X] Best Before (6mo)&lt;/span&gt;&lt;span&gt;[X] Veg Symbol&lt;/span&gt;&lt;span&gt;[X] FSSAI License&lt;/span&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+
+                  &lt;div className=&quot;md:w-1/2&quot; id=&quot;contact&quot;&gt;
+                    &lt;div className=&quot;bg-black/30 p-8 border border-white/10 relative drafting-marks h-full flex flex-col justify-center&quot;&gt;
+                      &lt;p className=&quot;font-mono-tech text-xs text-[#B87333] mb-2&quot;&gt;// SECURE_COMMUNICATION&lt;/p&gt;
+                      &lt;h2 className=&quot;text-3xl mb-4 text-[#C8A042]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;Initiate Contact&lt;/h2&gt;
+                      &lt;div className=&quot;h-px w-16 mb-8 bg-[#B87333]&quot;&gt;&lt;/div&gt;
+                      &lt;div className=&quot;space-y-6 text-white/80 mb-8 font-mono-tech text-sm&quot;&gt;
+                        &lt;p className=&quot;flex items-center hover:text-[#C8A042] transition-colors cursor-pointer border border-transparent hover:border-[#B87333]/30 p-2 -ml-2 rounded&quot;&gt;
+                          &lt;i data-lucide=&quot;phone&quot; className=&quot;w-4 h-4 mr-4 text-[#B87333]&quot;&gt;&lt;/i&gt; +91 81410 40146
+                        &lt;/p&gt;
+                        &lt;p className=&quot;flex items-center hover:text-[#C8A042] transition-colors cursor-pointer border border-transparent hover:border-[#B87333]/30 p-2 -ml-2 rounded&quot;&gt;
+                          &lt;i data-lucide=&quot;mail&quot; className=&quot;w-4 h-4 mr-4 text-[#B87333]&quot;&gt;&lt;/i&gt; theroastedengineer@gmail.com
+                        &lt;/p&gt;
+                        &lt;p className=&quot;flex items-center p-2 -ml-2&quot;&gt;
+                          &lt;i data-lucide=&quot;map-pin&quot; className=&quot;w-4 h-4 mr-4 text-[#B87333]&quot;&gt;&lt;/i&gt; Vadodara, Gujarat [GEO_TAG]
+                        &lt;/p&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/section&gt;
+
+              {/* FOOTER */}
+              &lt;footer className=&quot;py-12 text-center bg-[#06162a] border-t border-[#B87333]/50&quot;&gt;
+                &lt;div className=&quot;flex flex-col items-center justify-center mb-6&quot;&gt;
+                  {!logoError ? (
+                    &lt;img src=&quot;./Designer (3).jpg&quot; alt=&quot;The Roasted Engineer&quot; className=&quot;h-20 w-auto object-contain mb-4 mix-blend-screen&quot; onError={() =&gt; setLogoError(true)} /&gt;
+                  ) : (
+                    &lt;h2 className=&quot;text-2xl font-bold tracking-widest mb-2 text-[#C8A042]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;THE ROASTED ENGINEER&lt;/h2&gt;
+                  )}
+                  &lt;p className=&quot;text-[10px] tracking-[0.3em] uppercase text-white/50 font-mono-tech&quot;&gt;Where Gifting Meets Engineering.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;p className=&quot;text-[9px] text-white/30 tracking-widest uppercase font-mono-tech&quot;&gt;© {new Date().getFullYear()} The Roasted Engineer. ALL RIGHTS RESERVED. SYS.BUILD.v1.0&lt;/p&gt;
+              &lt;/footer&gt;
+
+              {/* FLOATING CART WIDGET */}
+              {Object.keys(cart).length &gt; 0 &amp;&amp; (
+                &lt;div className=&quot;fixed bottom-0 left-0 w-full shadow-[0_-20px_40px_rgba(0,0,0,0.15)] z-50 animate-slide-up bg-[#0B2545] border-t-2 border-[#B87333]&quot;&gt;
+                  &lt;div className=&quot;max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center&quot;&gt;
+                    &lt;div className=&quot;mb-4 md:mb-0 text-center md:text-left flex items-center&quot;&gt;
+                      &lt;span className=&quot;w-2 h-2 rounded-full bg-green-500 mr-3 animate-pulse&quot;&gt;&lt;/span&gt;
+                      &lt;div&gt;
+                        &lt;h4 className=&quot;font-mono-tech text-xs text-[#C8A042] tracking-widest uppercase&quot;&gt;Custom System Live&lt;/h4&gt;
+                        &lt;p className=&quot;text-[10px] text-white/60 font-mono-tech mt-1&quot;&gt;VOL: {getCustomTotals().totalItems} MODS | ENCLOSURE: {boxUpgrade}&lt;/p&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div className=&quot;flex items-center space-x-6&quot;&gt;
+                      &lt;div className=&quot;text-right&quot;&gt;
+                        &lt;span className=&quot;block text-[9px] font-mono-tech uppercase tracking-widest text-white/50&quot;&gt;Calculated Output&lt;/span&gt;
+                        &lt;span className=&quot;text-xl font-mono-tech text-white&quot;&gt;₹{getCustomTotals().grandTotal}.00&lt;/span&gt;
+                      &lt;/div&gt;
+                      &lt;button onClick={handleBuyCustom} className=&quot;px-6 py-3 font-mono-tech tracking-widest uppercase text-xs transition-all flex items-center bg-[#B87333] text-white hover:bg-[#C8A042]&quot;&gt;
+                        COMPILE_ORDER &lt;i data-lucide=&quot;shopping-cart&quot; className=&quot;w-3 h-3 ml-2&quot;&gt;&lt;/i&gt;
+                      &lt;/button&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              )}
+
+              {/* CHECKOUT MODAL */}
+              {isModalOpen &amp;&amp; checkoutData &amp;&amp; (
+                &lt;div className=&quot;fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4 backdrop-blur-sm&quot;&gt;
+                  &lt;div className=&quot;bg-[#F5F1E8] w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[90vh] border border-[#0B2545] drafting-marks&quot;&gt;
+                    
+                    &lt;div className=&quot;px-6 py-4 flex justify-between items-center text-white bg-[#0B2545] border-b border-[#B87333]/50&quot;&gt;
+                      &lt;div className=&quot;flex items-center&quot;&gt;
+                        &lt;i data-lucide=&quot;settings&quot; className=&quot;w-4 h-4 mr-3 text-[#B87333]&quot;&gt;&lt;/i&gt;
+                        &lt;h3 className=&quot;font-mono-tech text-xs uppercase tracking-widest text-[#B87333]&quot;&gt;Order Specification&lt;/h3&gt;
+                      &lt;/div&gt;
+                      &lt;button onClick={() =&gt; setIsModalOpen(false)} className=&quot;text-white/60 hover:text-white transition-colors&quot;&gt;
+                        &lt;i data-lucide=&quot;x&quot; className=&quot;w-5 h-5&quot;&gt;&lt;/i&gt;
+                      &lt;/button&gt;
+                    &lt;/div&gt;
+
+                    &lt;div className=&quot;p-6 overflow-y-auto flex-grow relative bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSIyIiBjeT0iMiIgcj0iMSIgZmlsbD0icmdiYSgwLDAsMCwwLjA1KSIvPgo8L3N2Zz4=')]&quot;&gt;
+                      
+                      {checkoutData.type === 'signature' ? (
+                        &lt;div&gt;
+                          &lt;div className=&quot;flex items-start space-x-4 mb-6 pb-6 border-b border-[#0B2545]/10&quot;&gt;
+                            &lt;img src={generatedImages[checkoutData.item.id] || checkoutData.item.img} alt={checkoutData.item.name} className=&quot;w-20 h-20 object-cover border border-[#0B2545]/20&quot; /&gt;
+                            &lt;div&gt;
+                              &lt;h4 className=&quot;font-bold text-lg text-[#0B2545]&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;{checkoutData.item.name}&lt;/h4&gt;
+                              &lt;p className=&quot;font-mono-tech text-[9px] text-gray-500 uppercase tracking-widest mt-1&quot;&gt;SKU: {checkoutData.item.sku}&lt;/p&gt;
+                              &lt;p className=&quot;font-mono-tech text-lg text-[#B87333] mt-1&quot;&gt;₹{checkoutData.item.price}.00&lt;/p&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                          &lt;p className=&quot;font-mono-tech text-[10px] text-gray-400 mb-2 uppercase tracking-widest&quot;&gt;Included Parameters:&lt;/p&gt;
+                          &lt;ul className=&quot;text-xs space-y-1 text-gray-700 font-mono-tech&quot;&gt;
+                            {checkoutData.item.features.map((f, i) =&gt; &lt;li key={i}&gt;[{i+1}] {f}&lt;/li&gt;)}
+                          &lt;/ul&gt;
+                        &lt;/div&gt;
+                      ) : (
+                        &lt;div&gt;
+                          &lt;h4 className=&quot;text-lg mb-4 text-[#0B2545] border-b border-[#0B2545]/10 pb-2 font-bold&quot; style={{ fontFamily: &quot;'Playfair Display', serif&quot; }}&gt;Custom Assembly&lt;/h4&gt;
+                          &lt;div className=&quot;bg-white p-4 border border-[#0B2545]/10 shadow-sm mb-4 font-mono-tech&quot;&gt;
+                            &lt;p className=&quot;text-[10px] font-bold uppercase tracking-widest mb-3 border-b border-gray-100 pb-2 text-[#B87333]&quot;&gt;// INJECTED_MODULES&lt;/p&gt;
+                            &lt;ul className=&quot;space-y-2 mb-4&quot;&gt;
+                              {checkoutData.items.map((item, i) =&gt; (
+                                &lt;li key={i} className=&quot;flex justify-between text-[11px] text-gray-700&quot;&gt;
+                                  &lt;span&gt;{String(item.qty).padStart(2, '0')}x {item.name}&lt;/span&gt;
+                                  &lt;span className=&quot;text-[#0B2545]&quot;&gt;₹{item.price * item.qty}.00&lt;/span&gt;
+                                &lt;/li&gt;
+                              ))}
+                            &lt;/ul&gt;
+                            &lt;p className=&quot;text-[10px] font-bold uppercase tracking-widest mb-3 border-b border-gray-100 pb-2 pt-2 text-[#B87333]&quot;&gt;// SYSTEM_ENCLOSURE&lt;/p&gt;
+                            &lt;ul className=&quot;space-y-2 text-[11px] text-gray-700&quot;&gt;
+                              &lt;li className=&quot;flex justify-between&quot;&gt;&lt;span&gt;Config: {checkoutData.details.validBoxName}&lt;/span&gt;&lt;span className=&quot;text-[#0B2545]&quot;&gt;₹{checkoutData.details.boxCost}.00&lt;/span&gt;&lt;/li&gt;
+                              &lt;li className=&quot;flex justify-between&quot;&gt;&lt;span&gt;Assembly Operation&lt;/span&gt;&lt;span className=&quot;text-[#0B2545]&quot;&gt;₹{checkoutData.details.packingCharge}.00&lt;/span&gt;&lt;/li&gt;
+                            &lt;/ul&gt;
+                          &lt;/div&gt;
+                          &lt;div className=&quot;flex justify-between items-center py-4 border-t border-dashed border-[#0B2545]/30&quot;&gt;
+                            &lt;span className=&quot;font-mono-tech text-xs uppercase tracking-widest text-gray-500&quot;&gt;Unit Output&lt;/span&gt;
+                            &lt;span className=&quot;font-mono-tech text-xl text-[#0B2545] font-bold&quot;&gt;₹{checkoutData.details.grandTotal}.00&lt;/span&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                      )}
+
+                      {/* QUANTITY SELECTOR &amp; GRAND TOTAL */}
+                      &lt;div className=&quot;bg-[#0B2545] p-4 mb-6 flex flex-col md:flex-row justify-between items-center text-white&quot;&gt;
+                         &lt;div className=&quot;flex items-center space-x-4 mb-3 md:mb-0&quot;&gt;
+                           &lt;span className=&quot;font-mono-tech text-[10px] uppercase tracking-widest text-[#B87333]&quot;&gt;Multiplier:&lt;/span&gt;
+                           &lt;div className=&quot;flex items-center bg-white/5 border border-white/20 font-mono-tech text-sm&quot;&gt;
+                             &lt;button onClick={() =&gt; setOrderQuantity(Math.max(1, orderQuantity - 1))} className=&quot;p-2 text-white/70 hover:text-white border-r border-white/20&quot;&gt;&lt;i data-lucide=&quot;minus&quot; className=&quot;w-3 h-3&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                             &lt;input type=&quot;number&quot; min=&quot;1&quot; value={orderQuantity} onChange={(e) =&gt; setOrderQuantity(Math.max(1, parseInt(e.target.value) || 1))} className=&quot;w-12 py-1 text-center bg-transparent outline-none&quot;/&gt;
+                             &lt;button onClick={() =&gt; setOrderQuantity(orderQuantity + 1)} className=&quot;p-2 text-white/70 hover:text-white border-l border-white/20&quot;&gt;&lt;i data-lucide=&quot;plus&quot; className=&quot;w-3 h-3&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                           &lt;/div&gt;
+                         &lt;/div&gt;
+                         &lt;div className=&quot;text-center md:text-right&quot;&gt;
+                           &lt;span className=&quot;block text-[9px] font-mono-tech uppercase tracking-widest text-white/50 mb-1&quot;&gt;Final Spec Cost&lt;/span&gt;
+                           &lt;span className=&quot;font-mono-tech text-2xl text-[#C8A042]&quot;&gt;
+                             ₹{(checkoutData.type === 'signature' ? checkoutData.item.price : checkoutData.details.grandTotal) * orderQuantity}.00
+                           &lt;/span&gt;
+                         &lt;/div&gt;
+                      &lt;/div&gt;
+
+                      {/* BRANDING FORM */}
+                      {orderQuantity &gt;= 50 ? (
+                        &lt;div className=&quot;mb-4 bg-white p-5 border border-[#C8A042]/50 font-mono-tech&quot;&gt;
+                          &lt;h4 className=&quot;text-[10px] uppercase tracking-widest mb-4 flex items-center text-[#0B2545] font-bold&quot;&gt;
+                            &lt;i data-lucide=&quot;badge-check&quot; className=&quot;w-3 h-3 mr-2 text-green-600&quot;&gt;&lt;/i&gt;[UI_CUSTOMIZATION_UNLOCKED]
+                          &lt;/h4&gt;
+                          &lt;div className=&quot;space-y-4&quot;&gt;
+                            &lt;div&gt;
+                              &lt;label className=&quot;block text-[10px] text-gray-500 mb-1 flex items-center tracking-widest uppercase&quot;&gt;&lt;i data-lucide=&quot;building-2&quot; className=&quot;w-3 h-3 mr-1&quot;&gt;&lt;/i&gt; Print_Entity&lt;/label&gt;
+                              &lt;input type=&quot;text&quot; placeholder=&quot;e.g. Acme Corp&quot; value={customCompanyName} onChange={(e) =&gt; setCustomCompanyName(e.target.value)} className=&quot;w-full px-3 py-2 border border-gray-200 text-xs focus:outline-none focus:border-[#0B2545] bg-gray-50&quot;/&gt;
+                            &lt;/div&gt;
+                            &lt;div&gt;
+                              &lt;label className=&quot;block text-[10px] text-gray-500 mb-1 flex items-center tracking-widest uppercase&quot;&gt;&lt;i data-lucide=&quot;palette&quot; className=&quot;w-3 h-3 mr-1&quot;&gt;&lt;/i&gt; Color_Profile&lt;/label&gt;
+                              &lt;select value={customBoxTheme} onChange={(e) =&gt; setCustomBoxTheme(e.target.value)} className=&quot;w-full px-3 py-2 border border-gray-200 text-xs focus:outline-none focus:border-[#0B2545] bg-gray-50&quot;&gt;
+                                &lt;option value=&quot;Navy/Copper&quot;&gt;Navy base / Copper accents&lt;/option&gt;
+                                &lt;option value=&quot;Cream/Gold&quot;&gt;Cream base / Gold accents&lt;/option&gt;
+                                &lt;option value=&quot;Luxe Navy-Gold&quot;&gt;Luxe Navy base / Gold Foil&lt;/option&gt;
+                                &lt;option value=&quot;Standard Custom&quot;&gt;Manual Spec (Specify via WA)&lt;/option&gt;
+                              &lt;/select&gt;
+                            &lt;/div&gt;
+                            &lt;div&gt;
+                              &lt;label className=&quot;block text-[10px] text-gray-500 mb-1 tracking-widest uppercase flex items-center&quot;&gt;&lt;i data-lucide=&quot;upload&quot; className=&quot;w-3 h-3 mr-1&quot;&gt;&lt;/i&gt; Vector_Asset&lt;/label&gt;
+                              &lt;label className=&quot;flex items-center justify-center w-full px-4 py-2 bg-gray-50 border border-gray-200 border-dashed cursor-pointer hover:bg-gray-100 transition-colors&quot;&gt;
+                                &lt;span className=&quot;text-xs text-gray-500 truncate max-w-[200px]&quot;&gt;{customLogoInfo ? customLogoInfo.name : '[ UPLOAD LOGO FILE ]'}&lt;/span&gt;
+                                &lt;input type=&quot;file&quot; accept=&quot;image/*,.pdf,.ai,.eps&quot; className=&quot;hidden&quot; onChange={(e) =&gt; { if (e.target.files &amp;&amp; e.target.files[0]) { setCustomLogoInfo(e.target.files[0]); } }} /&gt;
+                              &lt;/label&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                      ) : (
+                        &lt;div className=&quot;mb-4 bg-orange-50/50 p-4 border border-orange-200 text-center font-mono-tech&quot;&gt;
+                          &lt;p className=&quot;text-[10px] text-orange-800 flex flex-col items-center justify-center tracking-wider uppercase&quot;&gt;
+                             &lt;span className=&quot;font-bold mb-1 flex items-center&quot;&gt;[ UPGRADE_AVAILABLE ]&lt;/span&gt;
+                             Require QTY &amp;ge; 50 to unlock UI branding features.
+                          &lt;/p&gt;
+                        &lt;/div&gt;
+                      )}
+                    &lt;/div&gt;
+
+                    &lt;div className=&quot;p-0 border-t border-[#0B2545] flex&quot;&gt;
+                      &lt;button onClick={sendWhatsAppOrder} className=&quot;w-full py-4 text-[#0B2545] font-bold tracking-widest uppercase text-xs flex justify-center items-center transition-all bg-[#25D366] hover:bg-[#1DA851] font-mono-tech&quot;&gt;
+                        EXECUTE_TRANSMISSION &lt;i data-lucide=&quot;message-circle&quot; className=&quot;w-4 h-4 ml-2&quot;&gt;&lt;/i&gt;
+                      &lt;/button&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              )}
+            &lt;/div&gt;
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(&lt;App /&gt;);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
